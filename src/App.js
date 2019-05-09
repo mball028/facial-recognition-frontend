@@ -25,23 +25,25 @@ const app = new Clarifai.App({
   apiKey: '9f1bdff261f84a8b8667054331644a9b'
  });
 
+const initialState = {
+  input: '',
+  imageURL: '',
+  box: {},
+  route: 'signin',
+  isSignedIn: false,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: '',
+  }
+}
+
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      input: '',
-      imageURL: '',
-      box: {},
-      route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: '',
-      }
-    }
+    this.state = initialState;
   }
 
   loadUser = (data) => {
@@ -78,28 +80,29 @@ class App extends Component {
 
   onInputChange = (e) => {
     this.setState({input: e.target.value});
-  } 
+  }
 
-// on button submit  
+  // on button submit  
   onDetect = () => {
-    this.setState({imageURL: this.state.input});
+    this.setState({ imageURL: this.state.input });
     app.models
-    .predict(
-      Clarifai.FACE_DETECT_MODEL,
-      this.state.input)
+      .predict(
+        Clarifai.FACE_DETECT_MODEL,
+        this.state.input)
       .then(response => {
-        if(response){
+        if (response) {
           fetch('http://localhost:3500/image', {
             method: 'put',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                id: this.state.user.id
+              id: this.state.user.id
             })
           })
-          .then(response => response.json())
-          .then(count => {
-            this.setState(Object.assign(this.state.user, { entries: count }))
-          })
+            .then(response => response.json())
+            .then(count => {
+              this.setState(Object.assign(this.state.user, { entries: count }))
+            })
+            .catch(console.log)
         }
         this.displayFaceBox(this.calculateFaceLocation(response))
       })
@@ -108,7 +111,7 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if (route === 'signin'){
-      this.setState({isSignedIn: false})
+      this.setState(initialState)
     } else if(route === 'home'){
       this.setState({isSignedIn: true})
     }
