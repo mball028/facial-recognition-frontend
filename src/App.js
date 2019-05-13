@@ -7,7 +7,6 @@ import FaceRecognition from './components/facerecognition/FaceRecognition';
 import SignIn from './components/signin/SignIn';
 import Registration from './components/registration/Registration';
 import Particles from 'react-particles-js';
-import Clarifai from 'clarifai';
 import './App.css';
 
 const particlesOpt = {
@@ -21,9 +20,6 @@ const particlesOpt = {
     }
   }
 }
-const app = new Clarifai.App({
-  apiKey: '9f1bdff261f84a8b8667054331644a9b'
- });
 
 const initialState = {
   input: '',
@@ -85,13 +81,17 @@ class App extends Component {
   // on button submit  
   onDetect = () => {
     this.setState({ imageURL: this.state.input });
-    app.models
-      .predict(
-        Clarifai.FACE_DETECT_MODEL,
-        this.state.input)
+    fetch('https://evening-reaches-71208.herokuapp.com/imageurl', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+      .then(response => response.json())
       .then(response => {
         if (response) {
-          fetch('http://localhost:3500/image', {
+          fetch('https://evening-reaches-71208.herokuapp.com/image', {
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
