@@ -3,6 +3,7 @@ import React from 'react';
 class Signin extends React.Component {
 
 
+    // initial state of signInEmail & signInPassword
     constructor() {
         super();
         this.state = {
@@ -11,6 +12,7 @@ class Signin extends React.Component {
         }
     }
 
+    // functions that set the state of email and password to what the user has typed respectively
     onEmailChange = (e) => {
         this.setState({signInEmail: e.target.value})
     }
@@ -19,18 +21,23 @@ class Signin extends React.Component {
     }
 
     onSubmitSignIn = () => {
+        // fetching the endpoint for sign in
         fetch('https://evening-reaches-71208.herokuapp.com/signin', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
+            // we are sending the email and password state to the api
             body: JSON.stringify({
                 email: this.state.signInEmail,
                 password: this.state.signInPassword
             })
-        })
+        })  // then take the res & translate, which from our api will be a user object
             .then(response => response.json())
-            .then(user => {
+            .then((user) => {
+                // if there is a user.id do the following
                 if (user.id) {
+                    // our loadUser function (assigned in App.js) & imported with props, will take in the user obj as data and assign the state
                     this.props.loadUser(user);
+                    // route will change to home with proper user data loaded
                     this.props.onRouteChange('home');
                 }
             })

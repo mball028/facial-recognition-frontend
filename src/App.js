@@ -133,10 +133,10 @@ class App extends Component {
             <FaceRecognition box={this.state.box} imageURL={this.state.imageURL} />
           </div>
           : (
-            this.state.route === 'signin'
+              this.state.route === 'signin'
               ? <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
               : <Registration onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
-          )
+            )
         }
       </div>
     )
