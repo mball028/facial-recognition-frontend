@@ -2,6 +2,7 @@ import React from 'react';
 
 class Registration extends React.Component {
 
+    //set initial state of email, password, name
     constructor() {
         super();
         this.state = {
@@ -11,6 +12,7 @@ class Registration extends React.Component {
         }
     }
 
+    // change state of each field to what the user has input
     onNameChange = (e) => {
         this.setState({name: e.target.value})
     }
@@ -21,21 +23,27 @@ class Registration extends React.Component {
         this.setState({password: e.target.value})
     }
 
+    // this funciton is called when the user clicks the submit button
     onSubmitSignIn = () => {
+        // when the function is called it will fetch the register endpoint on our api
         fetch('https://evening-reaches-71208.herokuapp.com/register', {
+            // we are writing to our db with a POST method
             method: 'post',
             headers: {'Content-Type': 'application/json'},
+            // the req.body will contain the new state for our input fields that we have translated into JSON
             body: JSON.stringify({
                 email: this.state.email,
                 password: this.state.password,
                 name: this.state.name,
 
             })
-        })
+        }) // we will recieve a response and translate from json into a user obj
             .then(response => response.json())
             .then(user => {
                 if (user.id){
+                    // load user was assigned and passed with props from App.js
                     this.props.loadUser(user);
+                    // change the state to home and change route accordingly
                     this.props.onRouteChange('home');
                 }
             })
