@@ -82,7 +82,7 @@ class App extends Component {
       method: "delete",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        id: this.state.user.id
+        email: this.state.user.email
       })
     })
   }
