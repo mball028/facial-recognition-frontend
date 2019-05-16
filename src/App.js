@@ -78,12 +78,9 @@ class App extends Component {
 
 
   onDeleteAccount = () => {
-    fetch("https://evening-reaches-71208.herokuapp.com/deleteuser", {
+    fetch(`https://evening-reaches-71208.herokuapp.com/deleteuser/${this.state.user.id}`, {
       method: "delete",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id: this.state.user.id
-      })
     })
   }
   // on button submit
