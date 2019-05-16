@@ -76,6 +76,16 @@ class App extends Component {
     this.setState({ input: e.target.value });
   };
 
+
+  onDeleteAccount = () => {
+    fetch("https://evening-reaches-71208.herokuapp.com/deleteuser", {
+      method: "delete",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: this.state.user.id;
+      })
+    })
+  }
   // on button submit
   onDetect = () => {
     this.setState({ imageURL: this.state.input });
@@ -141,7 +151,7 @@ class App extends Component {
             />
             <nav style={{ display: "flex", justifyContent: "flex-end" }}>
               <p
-                onClick={() => {this.onRouteChange("signin")}}
+                onClick={() => {this.onRouteChange("signin"); this.onDeleteAccount()}}
                 className="f6 link dim black underline pa3 pointer mt7"
               >
                 Delete My Account
