@@ -78,15 +78,19 @@ class App extends Component {
 
 
   onDeleteAccount = () => {
-    fetch("https://evening-reaches-71208.herokuapp.com/deleteuser", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: this.state.user.email
-      })
-    })
-    alert('Account Deleted Successfully');
-  }
+    let confirmation = prompt("Enter Email to Delete Account");
+    if (confirmation === this.state.user.email) {
+      fetch("https://evening-reaches-71208.herokuapp.com/deleteuser", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: this.state.user.email
+        })
+      });
+      alert("Account Deleted Successfully");
+      return this.onRouteChange("signin");
+    } alert('Email not recognized, account deletion failed.')
+  };
   // on button submit
   onDetect = () => {
     this.setState({ imageURL: this.state.input });
@@ -152,7 +156,7 @@ class App extends Component {
             />
             <nav style={{ display: "flex", justifyContent: "flex-end" }}>
               <p
-                onClick={() => {this.onRouteChange("signin"); this.onDeleteAccount()}}
+                onClick={() => {this.onDeleteAccount()}}
                 className="f6 link dim black underline pa3 pointer mt7"
               >
                 Delete My Account
