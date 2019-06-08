@@ -91,6 +91,7 @@ class App extends Component {
       return this.onRouteChange("signin");
     } alert('Email not recognized, account deletion failed.')
   };
+  
   // on button submit
   onDetect = () => {
     this.setState({ imageURL: this.state.input });
