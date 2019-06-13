@@ -1,7 +1,7 @@
 body{
   margin: 0;
   padding: 0;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Open Sans', sans-serif;
   background: linear-gradient(88deg, rgb(127, 221, 155) 0%, rgb(154, 192, 248) 100%);
 }
 button {
